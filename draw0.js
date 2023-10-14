@@ -25,12 +25,28 @@ document.addEventListener('keydown', function(event) {
             randomElipse();
             break;
         case 's':
+            randomRectangle();
             break;
         case 'c':
             drawConcentricCircles(5, 15);
             break;
+        case 't':
+            tileCanvasWithRectangles(50, 75, ['#000', '#FFF'])
+            break;
     }
+});
 
+// Funkce pro vykreslení obdélníka na plátno s danými parametry
+function drawRectangle(x, y, w, h, col) {
+    // Nastavení barvy výplně pro obdélník
+    ctx.fillStyle = col;
+    // Vykreslení obdélníka na plátno s danými souřadnicemi (x, y),
+    // šířkou (w) a výškou (h)
+    ctx.fillRect(x, y, w, h);
+}
+
+function randomRectangle()
+{
     // Generuje náhodné souřadnice x a y uvnitř plátna
     let x = Math.random() * canvas.width;
     let y = Math.random() * canvas.height;
@@ -42,16 +58,7 @@ document.addEventListener('keydown', function(event) {
     let col = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
 
     // Vykreslí obdélník s náhodnými parametry
-    //drawSquare(x, y, size, col);
-});
-
-// Funkce pro vykreslení obdélníka na plátno s danými parametry
-function drawRectangle(x, y, w, h, col) {
-    // Nastavení barvy výplně pro obdélník
-    ctx.fillStyle = col;
-    // Vykreslení obdélníka na plátno s danými souřadnicemi (x, y),
-    // šířkou (w) a výškou (h)
-    ctx.fillRect(x, y, w, h);
+    drawSquare(x, y, size, col);
 }
 
 // Funkce pro vykreslení elipsy na plátno s danými parametry
@@ -69,10 +76,10 @@ function drawEllipse(x, y, w, h, col) {
 
 // Funkce pro vykreslení kruhu na plátno s danými parametry
 function drawCircle(x, y, r, col , fill) {
-    ctx.lineWidth = 3;
     // Nastavení barvy výplně pro kruh
     ctx.fillStyle = col;
-    ctx.
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 5;
     // Začátek nové cesty (to je důležité pro kreslení tvarů jako jsou kruhy, elipsy atd.)
     ctx.beginPath();
     // Vykreslení kruhu s centrem v bodě (x, y), poloměrem (r) a úhlem od 0 do 2π
@@ -112,5 +119,13 @@ function drawConcentricCircles(count, gap) {
     let base = Math.random() * 30 + 20;
     for (i = 0; i < count; i++) {
         drawCircle(x, y, base + (i * (gap / 2)), col, 0);
+    }
+}
+
+function tileCanvasWithRectangles(rectWidth, rectHeight, colors) {
+    for (let x = 0; x < canvas.width / rectWidth; x++) {
+        for (y = 0; y < canvas.width / rectHeight; y++) {
+            drawRectangle(x * rectWidth, y * rectHeight, rectWidth, rectHeight, colors[(x + y) % 2]);
+        }
     }
 }
