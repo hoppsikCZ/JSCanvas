@@ -28,10 +28,17 @@ document.addEventListener('keydown', function(event) {
             randomRectangle();
             break;
         case 'c':
-            drawConcentricCircles(5, 15);
+            drawConcentricCircles(50, 15);
             break;
         case 't':
-            tileCanvasWithRectangles(50, 75, ['#000', '#FFF'])
+            tileCanvasWithRectangles(50, 75, ['#000', '#FFF']);
+            break;
+        case 'l':
+            let baseX = (Math.random() * (canvas.width - 400)) + 200;
+            let baseY = (Math.random() * (canvas.height - 200)) + 200;
+            let height = Math.random() * (canvas.height - 200) + 200;
+            let numLines = Math.round(Math.random() * 10 + 5);
+            drawTriangleWithLoop(baseX, baseY, height, numLines);
             break;
     }
 });
@@ -127,5 +134,35 @@ function tileCanvasWithRectangles(rectWidth, rectHeight, colors) {
         for (y = 0; y < canvas.width / rectHeight; y++) {
             drawRectangle(x * rectWidth, y * rectHeight, rectWidth, rectHeight, colors[(x + y) % 2]);
         }
+    }
+}
+
+function drawTriangleWithLoop(baseX, baseY, height, numLines) {
+    let gap = height / numLines;
+    let lineWidth = 1;
+    let delta = 20;
+    
+    for (let i = 0; i < numLines; i++) {
+        ctx.beginPath();
+        ctx.lineWidth = lineWidth;
+        ctx.moveTo(baseX - (delta * (i + 1)), baseY - (i * gap));
+        ctx.lineTo(baseX + (delta * (i + 1)), baseY - (i * gap));
+        ctx.stroke();
+        lineWidth++;
+    }
+}
+
+function drawTriangleWithLoop(baseX, baseY, height, numLines) {
+    let gap = height / numLines;
+    let lineWidth = 1;
+    let delta = 20;
+    
+    for (let i = 0; i < numLines; i++) {
+        ctx.beginPath();
+        ctx.lineWidth = lineWidth;
+        ctx.moveTo(baseX - (delta * (i + 1)), baseY - (i * gap));
+        ctx.lineTo(baseX + (delta * (i + 1)), baseY - (i * gap));
+        ctx.stroke();
+        lineWidth++;
     }
 }
